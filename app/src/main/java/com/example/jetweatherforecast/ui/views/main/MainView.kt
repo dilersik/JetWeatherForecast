@@ -1,26 +1,41 @@
 package com.example.jetweatherforecast.ui.views.main
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
+import coil.transform.RoundedCornersTransformation
 import com.example.jetweatherforecast.model.Forecast
 import com.example.jetweatherforecast.ui.widgets.AppBar
+import com.example.jetweatherforecast.util.formatDate
+import com.example.jetweatherforecast.util.formatDecimals
 import com.example.jetweatherforecast.util.showToast
 
 @Composable
@@ -63,16 +78,63 @@ fun MainScaffold(navController: NavController, forecast: Forecast) {
 
 @Composable
 fun MainContent(forecast: Forecast, padding: PaddingValues) {
-    Surface(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(
-                top = padding.calculateTopPadding(),
+                top = padding
+                    .calculateTopPadding()
+                    .plus(10.dp),
                 start = 28.dp,
                 end = 28.dp,
                 bottom = 12.dp
-            )
+            ),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = forecast.city.name)
+        Text(
+            text = forecast.getToday().formatDate(),
+            modifier = Modifier.padding(6.dp),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Surface(
+            modifier = Modifier
+                .padding(4.dp)
+                .size(200.dp),
+            shape = CircleShape,
+            color = Color(0xFFFFC400)
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                WeatherStateImage(forecast.getTodayIcon())
+                Text(
+                    text = forecast.getTodayTempDay().formatDecimals(),
+                    style = MaterialTheme.typography.displayMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = forecast.getTodayDescription(),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontStyle = FontStyle.Italic
+                )
+            }
+        }
     }
+}
+
+@Composable
+fun WeatherStateImage(iconUrl: String) {
+    val context = LocalContext.current
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(context)
+            .data(iconUrl)
+            .crossfade(true)
+            .transformations(RoundedCornersTransformation())
+            .build()
+    )
+    Image(painter = painter, contentDescription = "", modifier = Modifier.size(60.dp))
 }
