@@ -2,11 +2,11 @@
 
 package com.example.jetweatherforecast.ui.widgets
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -27,14 +27,18 @@ import androidx.navigation.NavController
 fun AppBar(
     title: String,
     icon: ImageVector? = null,
-    showBackArrow: Boolean = false,
+    showNavigationIcon: Boolean = false,
     elevation: Dp = 0.dp,
     navController: NavController,
-    onAddActionClicked: () -> Unit = {},
-    onButtonClicked: () -> Unit = {}
+    actions: @Composable () -> Unit = {},
+    onAddActionClick: () -> Unit = {},
+    onNavigationIconClick: () -> Unit = {}
 ) {
     TopAppBar(
-        modifier = Modifier.shadow(elevation = 8.dp, spotColor = Color.DarkGray),
+        modifier = Modifier.shadow(
+            elevation = elevation,
+            spotColor = Color.DarkGray
+        ),
         title = {
             Text(
                 title,
@@ -43,21 +47,20 @@ fun AppBar(
             )
         },
         navigationIcon = {
-            if (showBackArrow) {
-                IconButton({
-                    navController.popBackStack()
-                }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "menu items"
-                    )
-                }
+            if (showNavigationIcon) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "menu items",
+                    tint = MaterialTheme.colorScheme.secondary,
+                    modifier = Modifier.clickable {
+                        onNavigationIconClick.invoke()
+                    }
+                )
             }
         },
-        actions = {
-
-        },
+        actions = { actions() },
         colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent,
             navigationIconContentColor = Color.White
         ),
     )
