@@ -1,5 +1,7 @@
 package com.example.jetweatherforecast.model
 
+import com.example.jetweatherforecast.util.Constant
+
 data class Daily(
     val clouds: Int,
     val deg: Int,
@@ -15,4 +17,6 @@ data class Daily(
     val sunset: Int,
     val temp: Temp,
     val weather: List<Weather>
-)
+) {
+    fun getTodayIcon() = Constant.BASE_URL_IMAGE + weather.firstOrNull()?.icon + ".png"
+}

@@ -17,6 +17,13 @@ fun Int.formatDate(): String {
     return sdf.format(date)
 }
 
+fun Int.formatDateDay(): String {
+    val sdf = SimpleDateFormat("EEE", Locale.getDefault())
+    val date = Date(this.toLong() * 1000)
+
+    return sdf.format(date)
+}
+
 fun Int.formatDateTime(): String {
     val sdf = SimpleDateFormat("hh:mm:aa", Locale.getDefault())
     val date = Date(this.toLong() * 1000)
