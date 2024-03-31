@@ -1,19 +1,12 @@
 package com.example.jetweatherforecast.ui.views.main
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
@@ -29,28 +22,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.transform.RoundedCornersTransformation
-import com.example.jetweatherforecast.R
-import com.example.jetweatherforecast.model.Daily
 import com.example.jetweatherforecast.model.Forecast
 import com.example.jetweatherforecast.ui.theme.Yellow
 import com.example.jetweatherforecast.ui.widgets.AppBar
+import com.example.jetweatherforecast.ui.widgets.SunsetSunriseRow
+import com.example.jetweatherforecast.ui.widgets.ThisWeekRow
+import com.example.jetweatherforecast.ui.widgets.TodayDetailsRow
+import com.example.jetweatherforecast.ui.widgets.WeatherStateImage
 import com.example.jetweatherforecast.util.formatDate
-import com.example.jetweatherforecast.util.formatDateDay
-import com.example.jetweatherforecast.util.formatDateTime
 import com.example.jetweatherforecast.util.formatDecimals
 import com.example.jetweatherforecast.util.showToast
 
@@ -141,177 +126,8 @@ private fun MainContent(forecast: Forecast, padding: PaddingValues) {
         }
         TodayDetailsRow(forecast)
         HorizontalDivider()
-        SunsetSunRiseRow(forecast)
+        SunsetSunriseRow(forecast)
         ThisWeekRow(forecast)
     }
 }
 
-@Composable
-private fun ThisWeekRow(forecast: Forecast) {
-    Text(
-        text = "This week",
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(top = 12.dp)
-    )
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFFEEF1EF),
-        shape = RoundedCornerShape(14.dp)
-    ) {
-        LazyColumn(
-            modifier = Modifier.padding(2.dp),
-            contentPadding = PaddingValues(1.dp)
-        ) {
-            items(items = forecast.list) { daily ->
-                DailyWeatherRow(daily)
-            }
-        }
-    }
-}
-
-@Composable
-private fun DailyWeatherRow(daily: Daily) {
-    Surface(
-        modifier = Modifier
-            .padding(3.dp)
-            .fillMaxWidth(),
-        shape = CircleShape.copy(topEnd = CornerSize(6.dp), bottomStart = CornerSize(6.dp)),
-        color = Color.White
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = daily.dt.formatDateDay(), modifier = Modifier.padding(start = 10.dp))
-
-            WeatherStateImage(iconUrl = daily.getTodayIcon())
-
-            Surface(shape = CircleShape, color = Yellow) {
-                Text(
-                    daily.weather.first().description,
-                    modifier = Modifier.padding(4.dp),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-            }
-
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        SpanStyle(
-                            color = Color.Red.copy(alpha = 0.7f),
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    ) {
-                        append(daily.temp.max.formatDecimals() + "°")
-                    }
-
-                    withStyle(SpanStyle(color = Color.Blue.copy(alpha = 0.7f))) {
-                        append(daily.temp.min.formatDecimals() + "°")
-                    }
-                },
-                modifier = Modifier.padding(end = 10.dp)
-            )
-        }
-    }
-}
-
-@Composable
-private fun SunsetSunRiseRow(forecast: Forecast) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 12.dp, bottom = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.sunrise_icon),
-                contentDescription = "sunrise",
-                modifier = Modifier.size(ICON_SIZE)
-            )
-            Text(
-                text = forecast.getTodaySunrise().formatDateTime(),
-                modifier = Modifier.padding(start = 8.dp),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.sunset_icon),
-                contentDescription = "sunset",
-                modifier = Modifier.size(ICON_SIZE)
-            )
-            Text(
-                text = forecast.getTodaySunset().formatDateTime(),
-                modifier = Modifier.padding(start = 8.dp),
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-    }
-}
-
-@Composable
-private fun TodayDetailsRow(forecast: Forecast) {
-    Row(
-        modifier = Modifier
-            .padding(top = 12.dp, bottom = 12.dp)
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.humidity_icon), contentDescription = "",
-                modifier = Modifier.size(ICON_SIZE)
-            )
-            Text(
-                text = "${forecast.getTodayHumidity()}%",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = 8.dp),
-            )
-        }
-
-        Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.pressure_icon), contentDescription = "",
-                modifier = Modifier.size(ICON_SIZE)
-            )
-            Text(
-                text = "${forecast.getTodayPressure()} psi",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = 8.dp),
-            )
-        }
-
-        Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                painter = painterResource(id = R.drawable.wind_icon), contentDescription = "",
-                modifier = Modifier.size(ICON_SIZE)
-            )
-            Text(
-                text = "${forecast.getTodayWind().formatDecimals()} km/h",
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = 8.dp),
-            )
-        }
-    }
-}
-
-@Composable
-private fun WeatherStateImage(iconUrl: String) {
-    val context = LocalContext.current
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(context)
-            .data(iconUrl)
-            .crossfade(true)
-            .transformations(RoundedCornersTransformation())
-            .build()
-    )
-    Image(painter = painter, contentDescription = "", modifier = Modifier.size(60.dp))
-}
-
-private val ICON_SIZE = 30.dp
