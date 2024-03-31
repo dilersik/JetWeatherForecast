@@ -5,6 +5,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.jetweatherforecast.ui.views.main.MainView
+import com.example.jetweatherforecast.ui.views.search.SearchView
 import com.example.jetweatherforecast.ui.views.splash.SplashView
 
 @Composable
@@ -17,6 +18,10 @@ fun Navigation() {
 
         composable(ViewEnum.MAIN.name) {
             MainView(navController)
+        }
+
+        composable(ViewEnum.SEARCH.name) {
+            SearchView(navController)
         }
     }
 }

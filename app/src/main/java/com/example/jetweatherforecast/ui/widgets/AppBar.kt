@@ -31,8 +31,7 @@ fun AppBar(
     elevation: Dp = 0.dp,
     navController: NavController,
     actions: @Composable () -> Unit = {},
-    onAddActionClick: () -> Unit = {},
-    onNavigationIconClick: () -> Unit = {}
+    onAddActionClick: () -> Unit = {}
 ) {
     TopAppBar(
         modifier = Modifier.shadow(
@@ -53,7 +52,7 @@ fun AppBar(
                     contentDescription = "menu items",
                     tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.clickable {
-                        onNavigationIconClick.invoke()
+                        navController.popBackStack()
                     }
                 )
             }

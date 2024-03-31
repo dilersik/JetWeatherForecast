@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.jetweatherforecast.model.Forecast
+import com.example.jetweatherforecast.ui.navigation.ViewEnum
 import com.example.jetweatherforecast.ui.theme.Yellow
 import com.example.jetweatherforecast.ui.widgets.AppBar
 import com.example.jetweatherforecast.ui.widgets.SunsetSunriseRow
@@ -60,11 +61,10 @@ private fun MainScaffold(navController: NavController, forecast: Forecast) {
             title = forecast.city.name + ", " + forecast.city.country,
             navController = navController,
             elevation = 4.dp,
-            onNavigationIconClick = {
-                /* TODO */
-            },
             actions = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = {
+                    navController.navigate(ViewEnum.SEARCH.name)
+                }) {
                     Icon(imageVector = Icons.Default.Search, contentDescription = "search")
                 }
                 IconButton(onClick = { /*TODO*/ }) {
