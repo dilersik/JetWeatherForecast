@@ -41,6 +41,7 @@ import com.example.jetweatherforecast.R
 import com.example.jetweatherforecast.model.Forecast
 import com.example.jetweatherforecast.ui.widgets.AppBar
 import com.example.jetweatherforecast.util.formatDate
+import com.example.jetweatherforecast.util.formatDateTime
 import com.example.jetweatherforecast.util.formatDecimals
 import com.example.jetweatherforecast.util.showToast
 
@@ -131,6 +132,44 @@ fun MainContent(forecast: Forecast, padding: PaddingValues) {
         }
         TodayDetailsRow(forecast)
         HorizontalDivider()
+        SunsetSunRiseRow(forecast)
+    }
+}
+
+@Composable
+fun SunsetSunRiseRow(forecast: Forecast) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 12.dp, bottom = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = R.drawable.sunrise_icon),
+                contentDescription = "sunrise",
+                modifier = Modifier.size(ICON_SIZE)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = forecast.getTodaySunrise().formatDateTime(),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = R.drawable.sunset_icon),
+                contentDescription = "sunset",
+                modifier = Modifier.size(ICON_SIZE)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = forecast.getTodaySunset().formatDateTime(),
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
     }
 }
 
@@ -138,15 +177,15 @@ fun MainContent(forecast: Forecast, padding: PaddingValues) {
 fun TodayDetailsRow(forecast: Forecast) {
     Row(
         modifier = Modifier
-            .padding(12.dp)
+            .padding(top = 12.dp, bottom = 12.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Row(modifier = Modifier.padding(4.dp)) {
+        Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.humidity_icon), contentDescription = "",
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(ICON_SIZE)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
@@ -155,10 +194,10 @@ fun TodayDetailsRow(forecast: Forecast) {
             )
         }
 
-        Row(modifier = Modifier.padding(4.dp)) {
+        Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.pressure_icon), contentDescription = "",
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(ICON_SIZE)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
@@ -167,10 +206,10 @@ fun TodayDetailsRow(forecast: Forecast) {
             )
         }
 
-        Row(modifier = Modifier.padding(4.dp)) {
+        Row(modifier = Modifier.padding(4.dp), verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 painter = painterResource(id = R.drawable.wind_icon), contentDescription = "",
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(ICON_SIZE)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
@@ -193,3 +232,5 @@ fun WeatherStateImage(iconUrl: String) {
     )
     Image(painter = painter, contentDescription = "", modifier = Modifier.size(60.dp))
 }
+
+private val ICON_SIZE = 30.dp

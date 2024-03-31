@@ -16,4 +16,6 @@ data class Forecast(
     fun getTodayHumidity() = list.firstOrNull()?.humidity ?: 0
     fun getTodayPressure() = list.firstOrNull()?.pressure ?: 0
     fun getTodayWind() = list.firstOrNull()?.speed ?: 0.0
+    fun getTodaySunrise() = list.firstOrNull()?.sunrise ?: 0
+    fun getTodaySunset() = list.firstOrNull()?.sunset ?: 0
 }
