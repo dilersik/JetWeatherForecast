@@ -32,8 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -43,6 +46,7 @@ import coil.transform.RoundedCornersTransformation
 import com.example.jetweatherforecast.R
 import com.example.jetweatherforecast.model.Daily
 import com.example.jetweatherforecast.model.Forecast
+import com.example.jetweatherforecast.ui.theme.Yellow
 import com.example.jetweatherforecast.ui.widgets.AppBar
 import com.example.jetweatherforecast.util.formatDate
 import com.example.jetweatherforecast.util.formatDateDay
@@ -116,7 +120,7 @@ private fun MainContent(forecast: Forecast, padding: PaddingValues) {
                 .padding(4.dp)
                 .size(200.dp),
             shape = CircleShape,
-            color = Color(0xFFFFC400)
+            color = Yellow
         ) {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -124,7 +128,7 @@ private fun MainContent(forecast: Forecast, padding: PaddingValues) {
             ) {
                 WeatherStateImage(forecast.getTodayIcon())
                 Text(
-                    text = forecast.getTodayTempDay().formatDecimals(),
+                    text = forecast.getTodayTempDay().formatDecimals() + "°C",
                     style = MaterialTheme.typography.displayMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -172,7 +176,7 @@ private fun DailyWeatherRow(daily: Daily) {
         modifier = Modifier
             .padding(3.dp)
             .fillMaxWidth(),
-        shape = CircleShape.copy(topEnd = CornerSize(6.dp)),
+        shape = CircleShape.copy(topEnd = CornerSize(6.dp), bottomStart = CornerSize(6.dp)),
         color = Color.White
     ) {
         Row(
@@ -180,8 +184,35 @@ private fun DailyWeatherRow(daily: Daily) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = daily.dt.formatDateDay(), modifier = Modifier.padding(start = 4.dp))
+            Text(text = daily.dt.formatDateDay(), modifier = Modifier.padding(start = 10.dp))
+
             WeatherStateImage(iconUrl = daily.getTodayIcon())
+
+            Surface(shape = CircleShape, color = Yellow) {
+                Text(
+                    daily.weather.first().description,
+                    modifier = Modifier.padding(4.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        SpanStyle(
+                            color = Color.Red.copy(alpha = 0.7f),
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    ) {
+                        append(daily.temp.max.formatDecimals() + "°")
+                    }
+
+                    withStyle(SpanStyle(color = Color.Blue.copy(alpha = 0.7f))) {
+                        append(daily.temp.min.formatDecimals() + "°")
+                    }
+                },
+                modifier = Modifier.padding(end = 10.dp)
+            )
         }
     }
 }
