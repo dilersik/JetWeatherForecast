@@ -22,8 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.example.jetweatherforecast.R
-import com.example.jetweatherforecast.model.Daily
-import com.example.jetweatherforecast.model.Forecast
+import com.example.jetweatherforecast.model.remote.Daily
+import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.ui.theme.Yellow
 import com.example.jetweatherforecast.util.Constant.ICON_SIZE
 import com.example.jetweatherforecast.util.formatDateDay

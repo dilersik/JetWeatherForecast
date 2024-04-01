@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.jetweatherforecast.R
-import com.example.jetweatherforecast.model.Forecast
+import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.util.Constant.ICON_SIZE
 import com.example.jetweatherforecast.util.formatDateTime
 

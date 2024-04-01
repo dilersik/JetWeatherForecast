@@ -1,4 +1,4 @@
-package com.example.jetweatherforecast.model
+package com.example.jetweatherforecast.model.remote
 
 import com.example.jetweatherforecast.util.Constant.BASE_URL_IMAGE
 

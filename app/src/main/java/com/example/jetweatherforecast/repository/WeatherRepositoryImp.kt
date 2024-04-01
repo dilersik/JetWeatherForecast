@@ -1,8 +1,8 @@
 package com.example.jetweatherforecast.repository
 
 import android.util.Log
-import com.example.jetweatherforecast.model.Forecast
 import com.example.jetweatherforecast.model.ResultWrapper
+import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.network.WeatherApi
 import javax.inject.Inject
 

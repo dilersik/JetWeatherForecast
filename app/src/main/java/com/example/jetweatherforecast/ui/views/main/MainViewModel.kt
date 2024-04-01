@@ -2,8 +2,8 @@ package com.example.jetweatherforecast.ui.views.main
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.jetweatherforecast.model.Forecast
 import com.example.jetweatherforecast.model.ResultWrapper
+import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.repository.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

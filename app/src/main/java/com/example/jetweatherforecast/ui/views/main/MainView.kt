@@ -31,7 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.jetweatherforecast.model.Forecast
+import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.ui.navigation.ViewEnum
 import com.example.jetweatherforecast.ui.theme.Yellow
 import com.example.jetweatherforecast.ui.widgets.AppBar

@@ -1,4 +1,4 @@
-package com.example.jetweatherforecast.model
+package com.example.jetweatherforecast.model.remote
 
 data class City(
     val coord: Coord,

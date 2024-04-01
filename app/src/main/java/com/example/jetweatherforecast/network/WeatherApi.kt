@@ -1,6 +1,6 @@
 package com.example.jetweatherforecast.network
 
-import com.example.jetweatherforecast.model.Forecast
+import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.util.Constant
 import retrofit2.http.GET
 import retrofit2.http.Query
