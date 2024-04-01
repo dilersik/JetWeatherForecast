@@ -21,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +35,7 @@ import com.example.jetweatherforecast.model.Forecast
 import com.example.jetweatherforecast.ui.navigation.ViewEnum
 import com.example.jetweatherforecast.ui.theme.Yellow
 import com.example.jetweatherforecast.ui.widgets.AppBar
+import com.example.jetweatherforecast.ui.widgets.ShowActionsMenu
 import com.example.jetweatherforecast.ui.widgets.SunsetSunriseRow
 import com.example.jetweatherforecast.ui.widgets.ThisWeekRow
 import com.example.jetweatherforecast.ui.widgets.TodayDetailsRow
@@ -60,22 +63,29 @@ fun MainView(navController: NavController, city: String) {
 
 @Composable
 private fun MainScaffold(navController: NavController, forecast: Forecast) {
+    val showActionsMenu = remember { mutableStateOf(false) }
+
     Scaffold(topBar = {
+        if (showActionsMenu.value) {
+            ShowActionsMenu(showActionsMenu, navController)
+        }
         AppBar(
             title = forecast.city.name + ", " + forecast.city.country,
-            navController = navController,
             elevation = 4.dp,
-            actions = {
-                IconButton(onClick = {
-                    navController.navigate(ViewEnum.SEARCH.name)
-                }) {
-                    Icon(imageVector = Icons.Default.Search, contentDescription = "search")
-                }
-                IconButton(onClick = { /*TODO*/ }) {
-                    Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "more")
-                }
+            showNavigationIcon = false,
+            navController = navController
+        ) {
+            IconButton(onClick = {
+                navController.navigate(ViewEnum.SEARCH.name)
+            }) {
+                Icon(imageVector = Icons.Default.Search, contentDescription = "search")
             }
-        )
+            IconButton(onClick = {
+                showActionsMenu.value = true
+            }) {
+                Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "more")
+            }
+        }
     }) {
         MainContent(forecast, it)
     }

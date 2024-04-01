@@ -4,7 +4,7 @@ enum class ViewEnum {
     SPLASH,
     MAIN,
     ABOUT,
-    FAVORITE,
+    FAVORITES,
     SEARCH,
     SETTINGS
 }

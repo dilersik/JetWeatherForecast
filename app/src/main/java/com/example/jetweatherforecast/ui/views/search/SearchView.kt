@@ -31,7 +31,7 @@ import com.example.jetweatherforecast.ui.widgets.AppBar
 @Composable
 fun SearchView(navController: NavController) {
     Scaffold(topBar = {
-        AppBar(title = "Search", navController = navController, showNavigationIcon = true)
+        AppBar(title = "Search", navController = navController)
     }) { padding ->
         Surface(
             modifier = Modifier.padding(

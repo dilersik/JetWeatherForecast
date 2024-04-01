@@ -6,9 +6,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.jetweatherforecast.ui.views.about.AboutView
+import com.example.jetweatherforecast.ui.views.favorites.FavoritesView
 import com.example.jetweatherforecast.ui.views.main.MAIN_VIEW_PARAM
 import com.example.jetweatherforecast.ui.views.main.MainView
 import com.example.jetweatherforecast.ui.views.search.SearchView
+import com.example.jetweatherforecast.ui.views.settings.SettingsView
 import com.example.jetweatherforecast.ui.views.splash.SplashView
 
 @Composable
@@ -32,6 +35,18 @@ fun Navigation() {
 
         composable(ViewEnum.SEARCH.name) {
             SearchView(navController)
+        }
+
+        composable(ViewEnum.ABOUT.name) {
+            AboutView(navController)
+        }
+
+        composable(ViewEnum.FAVORITES.name) {
+            FavoritesView(navController)
+        }
+
+        composable(ViewEnum.SETTINGS.name) {
+            SettingsView(navController)
         }
     }
 }
