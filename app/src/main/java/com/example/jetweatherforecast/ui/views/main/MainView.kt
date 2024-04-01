@@ -19,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,8 +42,11 @@ import com.example.jetweatherforecast.util.formatDecimals
 import com.example.jetweatherforecast.util.showToast
 
 @Composable
-fun MainView(navController: NavController) {
+fun MainView(navController: NavController, city: String) {
     val mainViewModel: MainViewModel = hiltViewModel()
+    LaunchedEffect(key1 = true) {
+        mainViewModel.loadForecast(city)
+    }
     val context = LocalContext.current
     val forecast = mainViewModel.forecast.collectAsState().value
     val error = mainViewModel.error.collectAsState().value
@@ -131,3 +135,4 @@ private fun MainContent(forecast: Forecast, padding: PaddingValues) {
     }
 }
 
+const val MAIN_VIEW_PARAM = "city"

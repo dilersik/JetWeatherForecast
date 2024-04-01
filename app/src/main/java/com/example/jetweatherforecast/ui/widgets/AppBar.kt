@@ -3,6 +3,7 @@
 package com.example.jetweatherforecast.ui.widgets
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +42,7 @@ fun AppBar(
         title = {
             Text(
                 title,
+                modifier = Modifier.padding(start = 16.dp),
                 color = MaterialTheme.colorScheme.secondary,
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 15.sp)
             )

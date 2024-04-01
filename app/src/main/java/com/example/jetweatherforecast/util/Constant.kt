@@ -5,4 +5,5 @@ object Constant {
     const val BASE_URL_IMAGE = "https://openweathermap.org/img/wn/"
     const val API_KEY = "ed60fcfbd110ee65c7150605ea8aceea"
     const val ICON_SIZE = 30
+    const val DEFAULT_CITY = "Curitiba"
 }

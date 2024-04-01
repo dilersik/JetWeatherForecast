@@ -25,11 +25,7 @@ class MainViewModel @Inject constructor(
     private val _forecast: MutableStateFlow<Forecast?> = MutableStateFlow(null)
     val forecast = _forecast.asStateFlow()
 
-    init {
-        loadForecast()
-    }
-
-    private fun loadForecast(city: String = "Curitiba") = viewModelScope.launch {
+    fun loadForecast(city: String) = viewModelScope.launch {
         if (city.isEmpty()) return@launch
         _loading.value = true
         when (val result = weatherRepository.getForecast(city)) {

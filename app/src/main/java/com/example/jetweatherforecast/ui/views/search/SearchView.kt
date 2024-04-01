@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.jetweatherforecast.ui.navigation.ViewEnum
 import com.example.jetweatherforecast.ui.widgets.AppBar
 
 @Composable
@@ -32,12 +33,20 @@ fun SearchView(navController: NavController) {
     Scaffold(topBar = {
         AppBar(title = "Search", navController = navController, showNavigationIcon = true)
     }) { padding ->
-        Surface(modifier = Modifier.padding(padding)) {
+        Surface(
+            modifier = Modifier.padding(
+                top = padding.calculateTopPadding(),
+                start = 16.dp,
+                end = 16.dp
+            )
+        ) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
+                SearchBar {
+                    navController.navigate(ViewEnum.MAIN.name + "/$it")
+                }
             }
         }
     }
@@ -52,8 +61,12 @@ private fun SearchBar(onSearch: (String) -> Unit = {}) {
     Column {
         CommonTextField(valueState = searchQueryState,
             placeholder = "City",
+            imeAction = ImeAction.Done,
             onAction = KeyboardActions {
-
+                if (!valid) return@KeyboardActions
+                onSearch(searchQueryState.value.trim())
+                searchQueryState.value = ""
+                keyboardController?.hide()
             })
     }
 }
@@ -69,9 +82,7 @@ private fun CommonTextField(
     OutlinedTextField(
         value = valueState.value,
         onValueChange = { valueState.value = it },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp),
+        modifier = Modifier.fillMaxWidth(),
         label = {
             Text(text = placeholder)
         },

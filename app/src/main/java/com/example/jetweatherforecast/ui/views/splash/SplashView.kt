@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.jetweatherforecast.R
 import com.example.jetweatherforecast.ui.navigation.ViewEnum
+import com.example.jetweatherforecast.util.Constant.DEFAULT_CITY
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,7 +40,7 @@ fun SplashView(navController: NavController) {
             })
         )
         delay(1000L)
-        navController.navigate(ViewEnum.MAIN.name)
+        navController.navigate(ViewEnum.MAIN.name + "/$DEFAULT_CITY")
     }
 
     Surface(
