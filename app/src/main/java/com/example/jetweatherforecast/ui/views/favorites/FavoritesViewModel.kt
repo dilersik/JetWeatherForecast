@@ -33,14 +33,6 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
-    fun addToFavorite(favorite: Favorite) = viewModelScope.launch {
-        try {
-            favoriteLocalRepository.insert(favorite)
-        } catch (e: Exception) {
-            Log.d(TAG, e.message.toString())
-        }
-    }
-
     private companion object {
         private const val TAG = "FavoritesViewModel"
     }

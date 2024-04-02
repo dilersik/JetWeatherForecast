@@ -1,5 +1,6 @@
 package com.example.jetweatherforecast.ui.views.main
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,12 +27,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.jetweatherforecast.model.local.Favorite
 import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.ui.navigation.ViewEnum
 import com.example.jetweatherforecast.ui.theme.Yellow
@@ -57,12 +61,16 @@ fun MainView(navController: NavController, city: String) {
     when {
         mainViewModel.loading.collectAsState().value -> CircularProgressIndicator()
         error != null -> context.showToast(error)
-        forecast != null -> MainScaffold(navController, forecast)
+        forecast != null -> MainScaffold(navController, mainViewModel, forecast)
     }
 }
 
 @Composable
-private fun MainScaffold(navController: NavController, forecast: Forecast) {
+private fun MainScaffold(
+    navController: NavController,
+    mainViewModel: MainViewModel,
+    forecast: Forecast
+) {
     val showActionsMenu = remember { mutableStateOf(false) }
 
     Scaffold(topBar = {
@@ -71,21 +79,38 @@ private fun MainScaffold(navController: NavController, forecast: Forecast) {
         }
         AppBar(
             title = forecast.city.name + ", " + forecast.city.country,
+            icon = {
+                Icon(imageVector = Icons.Default.FavoriteBorder,
+                    contentDescription = "",
+                    tint = Color.Red,
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .clickable {
+                            mainViewModel.addToFavorite(
+                                Favorite(
+                                    city = forecast.city.name,
+                                    country = forecast.city.country
+                                )
+                            )
+                        }
+                )
+            },
             elevation = 4.dp,
             showNavigationIcon = false,
-            navController = navController
-        ) {
-            IconButton(onClick = {
-                navController.navigate(ViewEnum.SEARCH.name)
-            }) {
-                Icon(imageVector = Icons.Default.Search, contentDescription = "search")
+            navController = navController,
+            actions = {
+                IconButton(onClick = {
+                    navController.navigate(ViewEnum.SEARCH.name)
+                }) {
+                    Icon(imageVector = Icons.Default.Search, contentDescription = "search")
+                }
+                IconButton(onClick = {
+                    showActionsMenu.value = true
+                }) {
+                    Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "more")
+                }
             }
-            IconButton(onClick = {
-                showActionsMenu.value = true
-            }) {
-                Icon(imageVector = Icons.Rounded.MoreVert, contentDescription = "more")
-            }
-        }
+        )
     }) {
         MainContent(forecast, it)
     }

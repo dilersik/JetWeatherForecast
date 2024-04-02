@@ -31,7 +31,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -46,7 +45,7 @@ import com.example.jetweatherforecast.ui.navigation.menuItemEnumList
 fun AppBar(
     title: String,
     navController: NavController,
-    icon: ImageVector? = null,
+    icon: @Composable () -> Unit = {},
     showNavigationIcon: Boolean = true,
     elevation: Dp = 0.dp,
     actions: @Composable () -> Unit = {}
@@ -70,12 +69,14 @@ fun AppBar(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "back",
                     tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.clickable {
-                        navController.popBackStack()
-                    }
+                    modifier = Modifier
+                        .padding(start = 12.dp)
+                        .clickable {
+                            navController.popBackStack()
+                        }
                 )
-            } else if (icon != null) {
-                Icon(imageVector = icon, contentDescription = "")
+            } else {
+                icon()
             }
         },
         actions = { actions() },
