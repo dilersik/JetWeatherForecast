@@ -9,7 +9,7 @@ import com.example.jetweatherforecast.model.local.Favorite
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface Dao {
+interface FavoriteDao {
 
     @Query("SELECT * FROM favorites")
     fun getAll(): Flow<List<Favorite>>

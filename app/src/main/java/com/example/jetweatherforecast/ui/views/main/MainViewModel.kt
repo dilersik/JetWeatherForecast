@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.jetweatherforecast.model.ResultWrapper
 import com.example.jetweatherforecast.model.remote.Forecast
-import com.example.jetweatherforecast.repository.WeatherRepository
+import com.example.jetweatherforecast.repository.remote.WeatherRemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val weatherRepository: WeatherRepository
+    private val weatherRemoteRepository: WeatherRemoteRepository
 ) : ViewModel() {
 
     private val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -28,7 +28,7 @@ class MainViewModel @Inject constructor(
     fun loadForecast(city: String) = viewModelScope.launch {
         if (city.isEmpty()) return@launch
         _loading.value = true
-        when (val result = weatherRepository.getForecast(city)) {
+        when (val result = weatherRemoteRepository.getForecast(city)) {
             is ResultWrapper.Success -> _forecast.value = result.data
             is ResultWrapper.Error -> _error.value = result.exception.message
         }

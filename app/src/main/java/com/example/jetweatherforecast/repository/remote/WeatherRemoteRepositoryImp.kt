@@ -1,4 +1,4 @@
-package com.example.jetweatherforecast.repository
+package com.example.jetweatherforecast.repository.remote
 
 import android.util.Log
 import com.example.jetweatherforecast.model.ResultWrapper
@@ -6,9 +6,9 @@ import com.example.jetweatherforecast.model.remote.Forecast
 import com.example.jetweatherforecast.network.WeatherApi
 import javax.inject.Inject
 
-class WeatherRepositoryImp @Inject constructor(
+class WeatherRemoteRepositoryImp @Inject constructor(
     private val weatherApi: WeatherApi
-): WeatherRepository {
+): WeatherRemoteRepository {
 
     override suspend fun getForecast(city: String, unit: String): ResultWrapper<Forecast> = try {
         val forecast = weatherApi.getForecast(query = city, units = unit)
