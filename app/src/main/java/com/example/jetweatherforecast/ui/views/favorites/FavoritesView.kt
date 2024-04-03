@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -70,7 +69,6 @@ private fun CityRow(
         modifier = Modifier
             .padding(3.dp)
             .fillMaxWidth()
-            .height(50.dp)
             .clickable {
                 navController.navigate(ViewEnum.MAIN.name + "/${favorite.city}")
             },
@@ -85,16 +83,16 @@ private fun CityRow(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = favorite.city,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(.5f)
-            )
-            Text(
                 text = favorite.country,
                 style = MaterialTheme.typography.titleMedium,
                 color = Purple40,
-                modifier = Modifier.weight(.3f)
+                modifier = Modifier.weight(.1f)
+            )
+            Text(
+                text = favorite.city,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(.8f)
             )
             Icon(
                 imageVector = Icons.Rounded.Delete,

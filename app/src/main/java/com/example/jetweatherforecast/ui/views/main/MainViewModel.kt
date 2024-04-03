@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.jetweatherforecast.model.ResultWrapper
 import com.example.jetweatherforecast.model.local.Favorite
 import com.example.jetweatherforecast.model.remote.Forecast
+import com.example.jetweatherforecast.model.remote.UnitEnum
 import com.example.jetweatherforecast.repository.local.FavoriteLocalRepository
+import com.example.jetweatherforecast.repository.local.SharedPreferencesRepository
 import com.example.jetweatherforecast.repository.remote.WeatherRemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val weatherRemoteRepository: WeatherRemoteRepository,
-    private val favoriteLocalRepository: FavoriteLocalRepository
+    private val favoriteLocalRepository: FavoriteLocalRepository,
+    private val sharedPreferencesRepository: SharedPreferencesRepository,
 ) : ViewModel() {
 
     private val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -32,7 +35,13 @@ class MainViewModel @Inject constructor(
     fun loadForecast(city: String) = viewModelScope.launch {
         if (city.isEmpty()) return@launch
         _loading.value = true
-        when (val result = weatherRemoteRepository.getForecast(city)) {
+        var unit = sharedPreferencesRepository.getUnit()
+        if (unit == null) {
+            unit = UnitEnum.METRIC
+            sharedPreferencesRepository.saveUnit(unit)
+        }
+
+        when (val result = weatherRemoteRepository.getForecast(city, unit.name)) {
             is ResultWrapper.Success -> _forecast.value = checkFavorite(result.data)
             is ResultWrapper.Error -> _error.value = result.exception.message
         }

@@ -39,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.jetweatherforecast.ui.navigation.MenuItemEnum
 import com.example.jetweatherforecast.ui.navigation.ViewEnum
-import com.example.jetweatherforecast.ui.navigation.menuItemEnumList
 
 @Composable
 fun AppBar(
@@ -60,7 +59,7 @@ fun AppBar(
                 title,
                 modifier = Modifier.padding(start = 16.dp),
                 color = MaterialTheme.colorScheme.secondary,
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 18.sp)
             )
         },
         navigationIcon = {
@@ -106,7 +105,7 @@ fun ShowActionsMenu(showActionsMenu: MutableState<Boolean>, navController: NavCo
                 .width(140.dp)
                 .background(Color.White)
         ) {
-            menuItemEnumList.forEach { menuItem ->
+            enumValues<MenuItemEnum>().forEach { menuItem ->
                 DropdownMenuItem(text = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(

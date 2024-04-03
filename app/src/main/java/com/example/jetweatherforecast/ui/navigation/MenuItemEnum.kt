@@ -11,6 +11,3 @@ enum class MenuItemEnum(val text: String, val icon: ImageVector) {
     FAVORITE("Favorite", Icons.Default.FavoriteBorder),
     SETTINGS("Settings", Icons.Default.Settings)
 }
-
-val menuItemEnumList =
-    listOf(MenuItemEnum.ABOUT, MenuItemEnum.FAVORITE, MenuItemEnum.SETTINGS)

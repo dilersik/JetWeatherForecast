@@ -1,12 +1,15 @@
 package com.example.jetweatherforecast.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.room.Room
 import com.example.jetweatherforecast.data.Database
 import com.example.jetweatherforecast.data.FavoriteDao
 import com.example.jetweatherforecast.network.WeatherApi
 import com.example.jetweatherforecast.repository.local.FavoriteLocalRepository
 import com.example.jetweatherforecast.repository.local.FavoriteLocalRepositoryImp
+import com.example.jetweatherforecast.repository.local.SharedPreferencesRepository
+import com.example.jetweatherforecast.repository.local.SharedPreferencesRepositoryImp
 import com.example.jetweatherforecast.repository.remote.WeatherRemoteRepository
 import com.example.jetweatherforecast.repository.remote.WeatherRemoteRepositoryImp
 import com.example.jetweatherforecast.util.Constant
@@ -55,4 +58,14 @@ object AppModule {
         )
         .fallbackToDestructiveMigration()
         .build()
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+
+    @Provides
+    @Singleton
+    fun provideSharedPreferencesRepository(sharedPreferences: SharedPreferences):
+            SharedPreferencesRepository = SharedPreferencesRepositoryImp(sharedPreferences)
 }
