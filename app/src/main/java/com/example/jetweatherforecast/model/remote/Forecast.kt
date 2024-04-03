@@ -8,7 +8,8 @@ data class Forecast(
     val cod: String,
     val list: List<Daily>,
     val message: Double,
-    var isFavorite: Boolean = false
+    var isFavorite: Boolean = false,
+    var unitEnum: UnitEnum? = null
 ) {
     fun getTodayIcon() = BASE_URL_IMAGE + list.firstOrNull()?.weather?.firstOrNull()?.icon + ".png"
     fun getToday() = list.firstOrNull()?.dt ?: 0

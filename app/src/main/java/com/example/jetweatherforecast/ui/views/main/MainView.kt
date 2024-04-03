@@ -155,7 +155,7 @@ private fun MainContent(forecast: Forecast, padding: PaddingValues) {
             ) {
                 WeatherStateImage(forecast.getTodayIcon())
                 Text(
-                    text = forecast.getTodayTempDay().formatDecimals() + "°C",
+                    text = forecast.getTodayTempDay().formatDecimals() + "°" + forecast.unitEnum?.temperature,
                     style = MaterialTheme.typography.displayMedium,
                     fontWeight = FontWeight.Bold
                 )

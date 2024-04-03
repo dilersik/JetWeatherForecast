@@ -115,7 +115,7 @@ fun TodayDetailsRow(forecast: Forecast) {
                 modifier = Modifier.size(ICON_SIZE.dp)
             )
             Text(
-                text = "${forecast.getTodayWind().formatDecimals()} km/h",
+                text = "${forecast.getTodayWind().formatDecimals()} " + forecast.unitEnum?.velocity,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(start = 8.dp),
             )

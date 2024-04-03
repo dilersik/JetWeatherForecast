@@ -13,4 +13,8 @@ class SettingsViewModel @Inject constructor(
 
     fun getSavedUnit() = sharedPreferencesRepository.getUnit() ?: UnitEnum.METRIC
 
+    fun saveUnit(unitEnum: UnitEnum) {
+        sharedPreferencesRepository.saveUnit(unitEnum)
+    }
+
 }

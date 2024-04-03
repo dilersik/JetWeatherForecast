@@ -56,6 +56,7 @@ fun SettingsView(navController: NavController) {
                     onCheckedChange = {
                         unitToggleState = !it
                         choiceState = if (unitToggleState) UnitEnum.IMPERIAL else UnitEnum.METRIC
+                        viewModel.saveUnit(choiceState)
                     },
                     modifier = Modifier
                         .fillMaxWidth(0.5f)

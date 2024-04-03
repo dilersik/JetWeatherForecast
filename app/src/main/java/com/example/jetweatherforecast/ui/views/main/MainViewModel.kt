@@ -42,13 +42,13 @@ class MainViewModel @Inject constructor(
         }
 
         when (val result = weatherRemoteRepository.getForecast(city, unit.name)) {
-            is ResultWrapper.Success -> _forecast.value = checkFavorite(result.data)
+            is ResultWrapper.Success -> _forecast.value = checkFavorite(result.data, unit)
             is ResultWrapper.Error -> _error.value = result.exception.message
         }
         _loading.value = false
     }
 
-    private suspend fun checkFavorite(forecast: Forecast): Forecast {
+    private suspend fun checkFavorite(forecast: Forecast, unitEnum: UnitEnum): Forecast {
         val localFavorite = favoriteLocalRepository.getByName(
             Favorite(
                 city = forecast.city.name,
@@ -56,6 +56,7 @@ class MainViewModel @Inject constructor(
             )
         )
         forecast.isFavorite = localFavorite != null
+        forecast.unitEnum = unitEnum
         return forecast
     }
 
