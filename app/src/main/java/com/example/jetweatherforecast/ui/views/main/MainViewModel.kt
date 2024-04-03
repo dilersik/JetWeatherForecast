@@ -39,13 +39,13 @@ class MainViewModel @Inject constructor(
         _loading.value = false
     }
 
-    fun addToFavorite(favorite: Favorite) = viewModelScope.launch {
+    fun addDelFavorite(favorite: Favorite) = viewModelScope.launch {
         try {
             val localFavorite = favoriteLocalRepository.getByName(favorite)
             if (localFavorite == null)
                 favoriteLocalRepository.insert(favorite)
             else
-                Log.d(TAG, "Favorite already exists.")
+                favoriteLocalRepository.delete(favorite)
         } catch (e: Exception) {
             Log.d(TAG, e.message.toString())
             _error.value = e.message

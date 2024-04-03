@@ -86,7 +86,7 @@ private fun MainScaffold(
                     modifier = Modifier
                         .padding(start = 12.dp)
                         .clickable {
-                            mainViewModel.addToFavorite(
+                            mainViewModel.addDelFavorite(
                                 Favorite(
                                     city = forecast.city.name,
                                     country = forecast.city.country
