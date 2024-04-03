@@ -33,6 +33,14 @@ class FavoritesViewModel @Inject constructor(
         }
     }
 
+    fun remove(favorite: Favorite) = viewModelScope.launch {
+        try {
+            favoriteLocalRepository.delete(favorite)
+        } catch (e: Exception) {
+            Log.d(TAG, e.message.toString())
+        }
+    }
+
     private companion object {
         private const val TAG = "FavoritesViewModel"
     }

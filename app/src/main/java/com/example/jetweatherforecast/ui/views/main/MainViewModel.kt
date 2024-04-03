@@ -45,7 +45,7 @@ class MainViewModel @Inject constructor(
             if (localFavorite == null)
                 favoriteLocalRepository.insert(favorite)
             else
-                favoriteLocalRepository.delete(favorite)
+                favoriteLocalRepository.delete(localFavorite)
         } catch (e: Exception) {
             Log.d(TAG, e.message.toString())
             _error.value = e.message
