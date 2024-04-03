@@ -18,4 +18,7 @@ class FavoriteLocalRepositoryImp @Inject constructor(private val favoriteDao: Fa
         favoriteDao.delete(favorite)
     }
 
+    override suspend fun getByName(favorite: Favorite) =
+        favoriteDao.getByName(favorite.city, favorite.country)
+
 }

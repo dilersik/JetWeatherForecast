@@ -20,4 +20,7 @@ interface FavoriteDao {
     @Delete
     suspend fun delete(favorite: Favorite)
 
+    @Query("SELECT * FROM favorites WHERE city = :city AND country = :country")
+    suspend fun getByName(city: String, country: String): Favorite?
+
 }

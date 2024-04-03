@@ -7,4 +7,5 @@ interface FavoriteLocalRepository {
     fun getAll(): Flow<List<Favorite>>
     suspend fun insert(favorite: Favorite)
     suspend fun delete(favorite: Favorite)
+    suspend fun getByName(favorite: Favorite): Favorite?
 }
