@@ -22,7 +22,7 @@ fun ThisWeekRow(forecast: Forecast) {
         text = "This week",
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(top = 12.dp)
+        modifier = Modifier.padding(top = 12.dp, bottom = 12.dp)
     )
     Surface(
         modifier = Modifier.fillMaxSize(),

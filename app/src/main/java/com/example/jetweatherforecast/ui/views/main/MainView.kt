@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.rounded.MoreVert
@@ -80,7 +81,9 @@ private fun MainScaffold(
         AppBar(
             title = forecast.city.name + ", " + forecast.city.country,
             icon = {
-                Icon(imageVector = Icons.Default.FavoriteBorder,
+                val icon = if (forecast.isFavorite) Icons.Default.Favorite
+                else Icons.Default.FavoriteBorder
+                Icon(imageVector = icon,
                     contentDescription = "",
                     tint = Color.Red,
                     modifier = Modifier

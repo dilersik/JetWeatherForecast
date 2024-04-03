@@ -87,17 +87,21 @@ private fun CityRow(
             Text(
                 text = favorite.city,
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(.5f)
             )
             Text(
                 text = favorite.country,
                 style = MaterialTheme.typography.titleMedium,
-                color = Purple40
+                color = Purple40,
+                modifier = Modifier.weight(.3f)
             )
             Icon(
                 imageVector = Icons.Rounded.Delete,
                 contentDescription = "delete",
-                modifier = Modifier.clickable { viewModel.remove(favorite) },
+                modifier = Modifier
+                    .weight(.1f)
+                    .clickable { viewModel.remove(favorite) },
                 tint = Color.Red.copy(alpha = 0.5f)
             )
         }

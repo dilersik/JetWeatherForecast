@@ -33,19 +33,33 @@ class MainViewModel @Inject constructor(
         if (city.isEmpty()) return@launch
         _loading.value = true
         when (val result = weatherRemoteRepository.getForecast(city)) {
-            is ResultWrapper.Success -> _forecast.value = result.data
+            is ResultWrapper.Success -> _forecast.value = checkFavorite(result.data)
             is ResultWrapper.Error -> _error.value = result.exception.message
         }
         _loading.value = false
     }
 
+    private suspend fun checkFavorite(forecast: Forecast): Forecast {
+        val localFavorite = favoriteLocalRepository.getByName(
+            Favorite(
+                city = forecast.city.name,
+                country = forecast.city.country
+            )
+        )
+        forecast.isFavorite = localFavorite != null
+        return forecast
+    }
+
     fun addDelFavorite(favorite: Favorite) = viewModelScope.launch {
         try {
             val localFavorite = favoriteLocalRepository.getByName(favorite)
-            if (localFavorite == null)
+            if (localFavorite == null) {
                 favoriteLocalRepository.insert(favorite)
-            else
+                _forecast.value = _forecast.value?.copy(isFavorite = true)
+            } else {
                 favoriteLocalRepository.delete(localFavorite)
+                _forecast.value = _forecast.value?.copy(isFavorite = false)
+            }
         } catch (e: Exception) {
             Log.d(TAG, e.message.toString())
             _error.value = e.message
